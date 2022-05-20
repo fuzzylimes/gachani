@@ -1,7 +1,38 @@
+$dark-blue: #2e3956;
+$light-dark-blue: #2e3f56;
+$blue-white: #f0f6f7;
+
+$text: $dark-blue;
+$navbar-background-color: $dark-blue;
+$navbar-item-color: $blue-white;
+$navbar-item-hover-color: $blue-white;
+$navbar-item-hover-background-color: $light-dark-blue;
+$navbar-item-img-max-height: 2.5rem;
+
+// $navbar-burger-color: $blue-white;
+.navbar-burger:hover {
+    color: $blue-white;
+}
+
+.navbar-item.has-dropdown.is-active .navbar-link {
+    background-color: $dark-blue;
+    color: $blue-white;
+}
+
+$navbar-dropdown-item-hover-color: $blue-white;
+$navbar-dropdown-item-hover-background-color: $light-dark-blue;
+$navbar-dropdown-item-color: $blue-white;
+$navbar-dropdown-background-color: $dark-blue;
+
+
+// $navbar-item-active-color: $dark-blue;
+// $navbar-dropdown-item-active-color: $dark-blue;
+
 @import "../node_modules/bulma/sass/utilities/_all.sass";
 @import "../node_modules/bulma/sass/base/_all.sass";
 @import "../node_modules/bulma/sass/grid/columns.sass";
 @import "../node_modules/bulma/sass/elements/container.sass";
+@import "../node_modules/bulma/sass/components/card.sass";
 @import "../node_modules/bulma/sass/elements/title.sass";
 @import "../node_modules/bulma/sass/components/navbar.sass";
 @import "../node_modules/bulma/sass/helpers/color.sass";
