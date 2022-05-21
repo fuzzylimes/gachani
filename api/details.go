@@ -11,10 +11,10 @@ import (
 	mal "github.com/fuzzylimes/malgomate"
 )
 
-func RecommendedHandler(w http.ResponseWriter, r *http.Request) {
+func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 
-	res, err := GetRecommended(query)
+	res, err := QueryDetails(query)
 	if err != nil {
 		switch e := err.Error(); e {
 		case "invalid_query":
@@ -31,9 +31,39 @@ func RecommendedHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, res)
 }
 
-func GetRecommended(q url.Values) (string, error) {
+func QueryDetails(q url.Values) (string, error) {
 	query := &mal.DetailsQuery{
 		Fields: []mal.DetailField{
+			mal.DetailID,
+			mal.DetailTitle,
+			mal.DetailMainPicture,
+			mal.DetailSynopsis,
+			mal.DetailStartDate,
+			mal.DetailEndDate,
+			mal.DetailMean,
+			mal.DetailMediaType,
+			mal.DetailGenres,
+			mal.DetailNumEpisodes,
+			mal.DetailAverageEpisodeDuration,
+			mal.DetailAlternativeTitles,
+			mal.DetailStudios,
+			mal.DetailPopularity,
+			mal.DetailRank,
+			mal.DetailRating,
+			mal.DetailRelatedAnime.SubFields(&mal.DetailFields{
+				mal.DetailID,
+				mal.DetailTitle,
+				mal.DetailMainPicture,
+				mal.DetailSynopsis,
+				mal.DetailStartDate,
+				mal.DetailEndDate,
+				mal.DetailMean,
+				mal.DetailMediaType,
+				mal.DetailGenres,
+				mal.DetailNumEpisodes,
+				mal.DetailAverageEpisodeDuration,
+				mal.DetailAlternativeTitles,
+			}),
 			mal.DetailRecommendations.SubFields(&mal.DetailFields{
 				mal.DetailID,
 				mal.DetailTitle,

@@ -44,6 +44,7 @@ func GetRankings(q url.Values) (string, error) {
 			mal.FieldGenres,
 			mal.FieldNsfw,
 			mal.FieldNumEpisodes,
+			mal.FieldMediaType,
 			mal.FieldAverageEpisodeDuration,
 			mal.FieldAlternativeTitles,
 		},
