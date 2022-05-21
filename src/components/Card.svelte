@@ -64,7 +64,9 @@
         </div>
     </div>
     <footer class="card-footer">
-        <a href="#/related/{anime.id}" class="card-footer-item">Related</a>
+        <a href="#/recommendations/{anime.id}" class="card-footer-item"
+            >Recommendations</a
+        >
         <a href="#/details/{anime.id}" class="card-footer-item">Details</a>
     </footer>
 </div>

@@ -1,34 +1,18 @@
 <script>
-    import { onMount } from "svelte";
     import { inview } from "svelte-inview";
     import Card from "../components/Card.svelte";
-    import { location } from "svelte-spa-router";
 
-    const mode = $location.split("/")[2];
+    export let params = {};
+
+    let mode = params.mode;
     let bannerText;
-    switch (mode) {
-        case "tv":
-        case "all":
-            bannerText = `Currently viewing ${
-                mode[0].toUpperCase() + mode.slice(1).toLowerCase()
-            } Anime`;
-            break;
-        case "movie":
-            bannerText = `Currently viewing Anime Movies`;
-            break;
-        case "bypopularity":
-            bannerText = `Currently viewing Anime by user Popularity`;
-            break;
-        default:
-            bannerText = `Currently airing Anime`;
-            break;
-    }
     let next = "";
     let hasNext = false;
     let results = [];
     let newResults = [];
 
     $: results = [...results, ...newResults];
+    $: params, remount();
 
     const fetchData = async () => {
         const res = await fetch(`/api/ranking?ranking_type=${mode}&${next}`);
@@ -44,9 +28,35 @@
         console.log(resJson);
     };
 
-    onMount(() => {
+    const remount = () => {
+        mode = params.mode;
+        next = "";
+        results = [];
+        newResults = [];
+        hasNext = false;
+        setBanner();
         fetchData();
-    });
+    };
+
+    const setBanner = () => {
+        switch (mode) {
+            case "tv":
+            case "all":
+                bannerText = `Currently viewing ${
+                    mode[0].toUpperCase() + mode.slice(1).toLowerCase()
+                } Anime`;
+                break;
+            case "movie":
+                bannerText = `Currently viewing Anime Movies`;
+                break;
+            case "bypopularity":
+                bannerText = `Currently viewing Anime by user Popularity`;
+                break;
+            default:
+                bannerText = `Currently airing Anime`;
+                break;
+        }
+    };
 
     const handleChange = (e) => {
         if (e.detail.inView && hasNext) fetchData();
