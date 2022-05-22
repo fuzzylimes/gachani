@@ -125,5 +125,6 @@
 <style>
     .card {
         margin-top: 4rem;
+        background-color: #f2f1ef;
     }
 </style>

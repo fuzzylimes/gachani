@@ -43,7 +43,9 @@
             class="columns has-text-centered is-centered is-multiline is-variable is-10-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen"
         >
             {#if isLoading}
-                <Spinner />
+                <div class="section is-medium">
+                    <Spinner />
+                </div>
             {/if}
 
             <!-- Detail -->
