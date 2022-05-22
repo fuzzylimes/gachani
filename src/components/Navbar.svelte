@@ -21,15 +21,15 @@
           url: "#/ranking/bypopularity",
           text: "Anime By Popularity",
         },
+        {
+          url: "#/ranking/airing",
+          text: "Now Airing",
+        },
       ],
     },
     {
-      url: "#/ranking/airing",
-      text: "Now Airing",
-    },
-    {
-      url: "#/related",
-      text: "Search Related",
+      url: "#/Search",
+      text: "Search",
     },
     {
       url: "#/about",
@@ -37,7 +37,7 @@
     },
   ];
 
-  // Hanlde the menu icon
+  // Handle the menu icon
   document.addEventListener("DOMContentLoaded", () => {
     // Get all "navbar-burger" elements
     const burger = document.querySelector(".navbar-burger");
@@ -54,6 +54,17 @@
       });
     });
   });
+
+  // Handle the drop down
+  const toggleMenu = (e) => {
+    let menu = e.currentTarget.querySelector(".navbar-dropdown");
+    if (e.target.parentElement.classList.contains("navbar-dropdown"))
+      menu.style.display = "none";
+    setTimeout(() => {
+      menu.style.display = "";
+      e.target.blur();
+    }, 100);
+  };
 </script>
 
 <nav class="navbar is-fixed-top" aria-label="main navigation">
@@ -81,7 +92,10 @@
       <div class="navbar-end">
         {#each links as link}
           {#if link.type == "dropdown"}
-            <div class="navbar-item has-dropdown is-hoverable">
+            <div
+              class="navbar-item has-dropdown is-hoverable"
+              on:click={(event) => toggleMenu(event)}
+            >
               <!-- svelte-ignore a11y-missing-attribute -->
               <a class="navbar-link">{link.text}</a>
               <div class="navbar-dropdown">

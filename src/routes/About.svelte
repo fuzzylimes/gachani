@@ -8,16 +8,30 @@
                     <h1 class="title is-1">About GachAni</h1>
                     <p class="my-3">
                         GachAni is intended to be a simple app for helping you
-                        find your next show (or movie) to watch. Powered by MAL
-                        and it's users, GachAni provides various means of
-                        browsing anime shows and movies.
+                        find your next Anime to watch. GachAni lets you browse
+                        popular shows and movies as well as search for your
+                        favorites, providing a simple recomendation system
+                        powered by MAL(MyAnimeList.net).
+                    </p>
+                    <p>
+                        GachAni was created by me, <a
+                            href="https://github.com/fuzzylimes"
+                            target="_blank">fuzzylimes</a
+                        >, as a fun side project to flush out a new MAL library
+                        that I was working on. I figured people are always
+                        looking for recommendations, and having something
+                        outside of the MAL website would be nice to have.
                     </p>
                 </div>
                 <div class="container mt-5">
                     <h3 class="title is-3">Credits</h3>
                     <ul>
-                        <li><a href="https://bulma.io">Bulma</a></li>
-                        <li><a href="https://svelte.dev">Svelte</a></li>
+                        <li>
+                            <a href="https://myanimelist.net" target="_blank"
+                                >MyAnimeList</a
+                            > - provides API and owns all data displayed on this
+                            website
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 <script>
     import Card from "../components/Card.svelte";
+    import Spinner from "../components/Spinner.svelte";
 
     export let params = {};
 
@@ -18,7 +19,6 @@
         title = resJson.title;
         newResults = resJson.recommendations.map((n) => n.node);
         isLoading = false;
-        console.log(resJson);
     };
 
     const remount = () => {
@@ -45,6 +45,9 @@
                     </h2>
                 </div>
             </div>
+            {#if isLoading}
+                <Spinner />
+            {/if}
             {#each results as result}
                 <div class="column is-5-tablet is-4-desktop">
                     <Card anime={result} />

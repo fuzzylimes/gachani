@@ -1,6 +1,7 @@
 <script>
     import Card from "../components/Card.svelte";
     import Detail from "../components/Detail.svelte";
+    import Spinner from "../components/Spinner.svelte";
 
     export let params = {};
 
@@ -24,8 +25,6 @@
                 relationship: n.RelationTypeFormatted,
             })) || [];
         isLoading = false;
-        console.log(data);
-        console.log(recommendations);
     };
 
     const remount = () => {
@@ -43,6 +42,10 @@
         <div
             class="columns has-text-centered is-centered is-multiline is-variable is-10-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen"
         >
+            {#if isLoading}
+                <Spinner />
+            {/if}
+
             <!-- Detail -->
             {#if data}
                 <Detail anime={data} />
@@ -50,7 +53,7 @@
 
             <!-- Related -->
             {#if related.length > 0}
-                <div class="column is-full">
+                <div class="column is-full" id="related">
                     <div class="section">
                         <h2 class="title is-2">Related Anime</h2>
                     </div>
@@ -64,7 +67,7 @@
 
             <!-- Recommendations -->
             {#if recommendations.length > 0}
-                <div class="column is-full">
+                <div class="column is-full" id="recommendations">
                     <div class="section">
                         <h2 class="title is-2">Recommended Anime</h2>
                     </div>

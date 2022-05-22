@@ -11,10 +11,10 @@ import (
 	mal "github.com/fuzzylimes/malgomate"
 )
 
-func RankingHandler(w http.ResponseWriter, r *http.Request) {
+func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 
-	res, err := getRankings(query)
+	res, err := searchAnime(query)
 	if err != nil {
 		switch e := err.Error(); e {
 		case "invalid_query":
@@ -31,8 +31,8 @@ func RankingHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, res)
 }
 
-func getRankings(q url.Values) (string, error) {
-	query := &mal.RankingQuery{
+func searchAnime(q url.Values) (string, error) {
+	query := &mal.AnimeQuery{
 		Fields: []mal.QueryField{
 			mal.FieldID,
 			mal.FieldTitle,
@@ -48,13 +48,15 @@ func getRankings(q url.Values) (string, error) {
 			mal.FieldAverageEpisodeDuration,
 			mal.FieldAlternativeTitles,
 		},
-		Limit:       50,
-		RankingType: mal.RankingByPopularity,
+		Limit: 50,
 	}
 
-	if rankingType := q.Get("ranking_type"); rankingType != "" && mal.RankTypeQueries.IsValid(rankingType) {
-		query.RankingType = mal.RankingType(rankingType)
+	if q := q.Get("q"); q != "" {
+		query.Query = q
+	} else {
+		return "", errors.New("invalid_query")
 	}
+
 	if offset := q.Get("offset"); offset != "" {
 		if offsetInt, err := strconv.Atoi(offset); err != nil {
 			return "", errors.New("invalid_query")
@@ -64,7 +66,7 @@ func getRankings(q url.Values) (string, error) {
 	}
 
 	c := mal.NewClient(os.Getenv("MAL_API_KEY"))
-	res, err := c.GetRanking(query)
+	res, err := c.GetAnime(query)
 
 	if err != nil {
 		return "", errors.New("client_error")

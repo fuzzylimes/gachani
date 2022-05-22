@@ -1,24 +1,22 @@
 <script>
-    import { inview } from "svelte-inview";
-    import Card from "../components/Card.svelte";
+    import { onMount } from "svelte";
     import Spinner from "../components/Spinner.svelte";
 
-    export let params = {};
+    import { inview } from "svelte-inview";
+    import Card from "../components/Card.svelte";
 
-    let mode = params.mode;
-    let bannerText;
     let next = "";
     let hasNext = false;
-    let isLoading = false;
     let results = [];
     let newResults = [];
+    let isLoading = false;
 
     $: results = [...results, ...newResults];
-    $: params, remount();
 
     const fetchData = async () => {
         isLoading = true;
-        const res = await fetch(`/api/ranking?ranking_type=${mode}&${next}`);
+        const q = document.getElementById("query").value;
+        const res = await fetch(`/api/search?q=${q}&${next}`);
         const resJson = await res.json();
         newResults = resJson.data.map((n) => n.node);
         if (resJson?.paging?.next) {
@@ -31,41 +29,19 @@
         isLoading = false;
     };
 
-    const remount = () => {
-        mode = params.mode;
-        next = "";
-        results = [];
-        newResults = [];
-        hasNext = false;
-        setBanner();
-        fetchData();
-    };
-
-    const setBanner = () => {
-        switch (mode) {
-            case "tv":
-            case "all":
-                bannerText = `Currently viewing ${
-                    mode[0].toUpperCase() + mode.slice(1).toLowerCase()
-                } Anime`;
-                break;
-            case "movie":
-                bannerText = `Currently viewing Anime Movies`;
-                break;
-            case "bypopularity":
-                bannerText = `Currently viewing Anime by user Popularity`;
-                break;
-            default:
-                bannerText = `Currently airing Anime`;
-                break;
-        }
-    };
-
     const handleChange = (e) => {
-        if (e.detail.inView && hasNext) {
-            fetchData();
-        }
+        if (e.detail.inView && hasNext) fetchData();
     };
+
+    onMount(() => {
+        document
+            .getElementById("query")
+            .addEventListener("keypress", function (e) {
+                if (e.key === "Enter") {
+                    fetchData();
+                }
+            });
+    });
 </script>
 
 <main>
@@ -74,13 +50,31 @@
             class="columns has-text-centered is-centered is-multiline is-variable is-10-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen"
         >
             <div class="column is-full">
-                <div class="section is-medium">
-                    <h1 class="title is-1">Anime Rankings</h1>
-                    <h2 class="subtitle is-4">
-                        {bannerText}
-                    </h2>
+                <div class="section mt-6">
+                    <h1 class="title is-1">Search For Anime</h1>
+                    <div
+                        class="columns is-centered is-10-mobile is-half-tablet mt-2"
+                    >
+                        <div class="column is-6">
+                            <input
+                                class="input"
+                                id="query"
+                                type="string"
+                                placeholder="Search Anime by Name"
+                            />
+                        </div>
+                        <div class="column is-narrow">
+                            <button
+                                class="button is-link"
+                                type="button"
+                                disabled={isLoading}
+                                on:click={fetchData}>Search!</button
+                            >
+                        </div>
+                    </div>
                 </div>
             </div>
+
             {#each results as result}
                 <div class="column is-5-tablet is-4-desktop">
                     <Card anime={result} />

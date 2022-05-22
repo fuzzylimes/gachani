@@ -4,7 +4,7 @@
 </script>
 
 <div class="card">
-    <div class="card-image">
+    <div class="card-image mt-2">
         <figure class="image is-3by4">
             <img src={anime?.main_picture?.medium} alt="{anime.name}-image" />
         </figure>
@@ -53,7 +53,7 @@
     </div>
     <footer class="card-footer">
         <a href="#/recommendations/{anime.id}" class="card-footer-item"
-            >Recommendations</a
+            >More Like This</a
         >
         <a href="#/details/{anime.id}" class="card-footer-item">Details</a>
     </footer>

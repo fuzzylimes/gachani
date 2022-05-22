@@ -14,7 +14,7 @@ import (
 func RecommendedHandler(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 
-	res, err := GetRecommended(query)
+	res, err := getRecommended(query)
 	if err != nil {
 		switch e := err.Error(); e {
 		case "invalid_query":
@@ -31,7 +31,7 @@ func RecommendedHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, res)
 }
 
-func GetRecommended(q url.Values) (string, error) {
+func getRecommended(q url.Values) (string, error) {
 	query := &mal.DetailsQuery{
 		Fields: []mal.DetailField{
 			mal.DetailRecommendations.SubFields(&mal.DetailFields{
@@ -57,6 +57,8 @@ func GetRecommended(q url.Values) (string, error) {
 		} else {
 			query.Id = idInt
 		}
+	} else {
+		return "", errors.New("invalid_query")
 	}
 
 	c := mal.NewClient(os.Getenv("MAL_API_KEY"))

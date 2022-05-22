@@ -1,6 +1,13 @@
 <script>
     import { calcWatchTime, calRunTime } from "../util/time";
     export let anime;
+
+    const scrollToView = (id) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView(true); // `true` is for aligning top of element to top of screen
+        }
+    };
 </script>
 
 <div class="card">
@@ -84,7 +91,20 @@
                         <strong>MAL Popularity Ranking:</strong>
                         {anime.popularity || "???"}
                     </p>
+                    <p />
+                </div>
+                <div class="mt-3">
                     <p>
+                        <!-- svelte-ignore a11y-missing-attribute -->
+                        <a on:click={() => scrollToView("related")}
+                            ><strong>Related</strong></a
+                        >
+                        |
+                        <!-- svelte-ignore a11y-missing-attribute -->
+                        <a on:click={() => scrollToView("recommendations")}
+                            ><strong>Recommendations</strong></a
+                        >
+                        |
                         <a
                             href="https://myanimelist.net/anime/{anime.id}"
                             target="_blank"><strong>View on MAL</strong></a

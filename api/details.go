@@ -14,7 +14,7 @@ import (
 func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 
-	res, err := QueryDetails(query)
+	res, err := queryDetails(query)
 	if err != nil {
 		switch e := err.Error(); e {
 		case "invalid_query":
@@ -31,7 +31,7 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, res)
 }
 
-func QueryDetails(q url.Values) (string, error) {
+func queryDetails(q url.Values) (string, error) {
 	query := &mal.DetailsQuery{
 		Fields: []mal.DetailField{
 			mal.DetailID,
@@ -87,6 +87,8 @@ func QueryDetails(q url.Values) (string, error) {
 		} else {
 			query.Id = idInt
 		}
+	} else {
+		return "", errors.New("invalid_query")
 	}
 
 	c := mal.NewClient(os.Getenv("MAL_API_KEY"))

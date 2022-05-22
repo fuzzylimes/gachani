@@ -14,7 +14,7 @@ import (
 func SeasonHandler(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 
-	res, err := GetSeasons(query)
+	res, err := getSeasons(query)
 	if err != nil {
 		switch e := err.Error(); e {
 		case "invalid_query":
@@ -31,7 +31,7 @@ func SeasonHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, res)
 }
 
-func GetSeasons(q url.Values) (string, error) {
+func getSeasons(q url.Values) (string, error) {
 	query := &mal.SeasonalQuery{
 		Fields: []mal.QueryField{
 			mal.FieldID,
@@ -52,6 +52,8 @@ func GetSeasons(q url.Values) (string, error) {
 
 	if season := q.Get("season"); season != "" && mal.SeasonTypeQueries.IsValid(season) {
 		query.Season = mal.Season(season)
+	} else {
+		return "", errors.New("invalid_query")
 	}
 
 	if year := q.Get("year"); year != "" {
@@ -60,6 +62,8 @@ func GetSeasons(q url.Values) (string, error) {
 		} else {
 			query.Year = yearInt
 		}
+	} else {
+		return "", errors.New("invalid_query")
 	}
 
 	c := mal.NewClient(os.Getenv("MAL_API_KEY"))
