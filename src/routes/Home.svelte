@@ -6,14 +6,14 @@
 		<div class="hero-body">
 			<div class="container">
 				<div class="columns is-centered has-text-centered">
-					<div class="column is-narrow">
+					<div class="column is-three-quarters-tablet">
 						<div class="banner">
 							<figure class="image">
 								<!-- svelte-ignore a11y-img-redundant-alt -->
 								<img src="GachAni.png" alt="logo-image" />
 							</figure>
 							<p class="subtitle is-4">
-								To find recommendations, <a
+								To find Anime recommendations, <a
 									class="has-text-info"
 									href="/#/ranking/all">browse the rankings</a
 								>
